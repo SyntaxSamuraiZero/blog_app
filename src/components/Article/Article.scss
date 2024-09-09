@@ -1,0 +1,84 @@
+.articles-list {
+  &__item {
+    position: relative;
+    border-radius: 5px;
+    padding: 16px;
+    height: 140px;
+    background: #ffffff;
+    box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+  }
+
+  &__item-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  &__item-title {
+    display: inline-block;
+    font-size: 20px;
+    line-height: 28px;
+    color: #1890ff;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 700px;
+    margin-right: 13px;
+  }
+
+  &__item-likes {
+    display: flex;
+  }
+
+  &__item-likes-icon {
+    margin-right: 5px;
+  }
+
+  &__item-likes-count {
+    font-size: 12px;
+    line-height: 22px;
+    color: #000000bf;
+  }
+
+  &__tag-list {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+
+  &__tag-item {
+    padding: 1px 5px 2px 5px;
+    border: 1px solid rgba(0, 0, 0);
+    border-radius: 2px;
+  }
+
+  &__author-profile {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+    align-items: center;
+  }
+
+  &__author-avatar {
+    margin-left: 12px;
+  }
+
+  &__author-image {
+    border-radius: 50%;
+    width: 46px;
+    height: 46px;
+  }
+
+  &__author-name {
+    font-size: 18px;
+    line-height: 28px;
+    color: rgba(0, 0, 0, 0.85);
+  }
+
+  &__author-date {
+    font-size: 12px;
+    line-height: 22px;
+    color: rgba(0, 0, 0, 0.5);
+  }
+}

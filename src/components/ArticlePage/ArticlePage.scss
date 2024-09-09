@@ -1,0 +1,111 @@
+.loading-container {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1000;
+}
+
+.loading-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.article {
+  position: relative;
+  padding: 16px;
+  margin: 0 auto;
+  width: 941px;
+  background: #ffffff;
+  box-shadow: 0px 4px 12px 0px rgba(0, 0, 0, 0.15);
+
+  &__header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+  }
+
+  &__title {
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 28px;
+    color: #1890ff;
+    // white-space: nowrap;
+    // overflow: hidden;
+    // text-overflow: ellipsis;
+    // max-width: 700px;
+    margin-right: 13px;
+  }
+
+  &__likes {
+    display: flex;
+  }
+
+  &__likes-icon {
+    margin-right: 5px;
+  }
+
+  &__likes-count {
+    font-size: 12px;
+    line-height: 22px;
+    color: #000000bf;
+  }
+
+  &__tags {
+    display: flex;
+    gap: 8px;
+    font-size: 12px;
+    color: #00000080;
+    margin-bottom: 16px;
+  }
+
+  &__tag {
+    padding: 1px 5px 2px 5px;
+    border: 1px solid #00000080;
+    border-radius: 2px;
+  }
+
+  &__description {
+    font-size: 12px;
+    line-height: 22px;
+    color: #00000080;
+    margin-bottom: 25px;
+  }
+
+  &__footer {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+
+    .author {
+      &__image {
+        border-radius: 50%;
+        width: 46px;
+        height: 46px;
+      }
+
+      &__details {
+        margin-right: 12px;
+      }
+
+      &__name {
+        font-size: 18px;
+        line-height: 28px;
+        color: #000000d9;
+      }
+
+      &__date {
+        font-size: 12px;
+        line-height: 22px;
+        color: #00000080;
+      }
+    }
+  }
+}
