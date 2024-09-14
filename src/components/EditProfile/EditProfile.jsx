@@ -1,21 +1,26 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 
-import handleSubmits from "../../services/handleSubmits";
+import updateUser from "../../services/updateUser";
 
-import styles from "./SignUp.module.scss";
+import styles from "./EditProfile.module.scss";
 
-export default function SignUp() {
+export default function EditProfile({ user, setUser }) {
   const {
     register,
     handleSubmit,
-    watch,
+    reset,
     formState: { errors },
   } = useForm();
 
-  const navigate = useNavigate();
-  const password = watch("password");
+  useEffect(() => {
+    if (user) {
+      reset({
+        username: user.username,
+        email: user.email,
+      });
+    }
+  }, [user, reset]);
 
   const onSubmit = async (data) => {
     const formData = {
@@ -23,24 +28,25 @@ export default function SignUp() {
         username: data.username,
         email: data.email,
         password: data.password,
+        image: data.image,
       },
     };
 
-    await handleSubmits(formData, navigate);
+    await updateUser(formData, setUser);
   };
 
   return (
-    <div className={styles.regContainer}>
-      <h2 className={styles.regTitle}>Create new account</h2>
+    <div className={styles.editContainer}>
+      <h2 className={styles.editTitle}>Edit Profile</h2>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
-        <div className={styles.regField}>
-          <label htmlFor="username" className={styles.regLabel}>
+        <div className={styles.editField}>
+          <label htmlFor="username" className={styles.editLabel}>
             Username
           </label>
           <input
             type="text"
             id="username"
-            className={styles.regInput}
+            className={styles.editInput}
             placeholder="Username"
             autoComplete="username"
             autoFocus
@@ -65,14 +71,14 @@ export default function SignUp() {
           )}
         </div>
 
-        <div className={styles.regField}>
-          <label htmlFor="email" className={styles.regLabel}>
+        <div className={styles.editField}>
+          <label htmlFor="email" className={styles.editLabel}>
             Email address
           </label>
           <input
             type="email"
             id="email"
-            className={styles.regInput}
+            className={styles.editInput}
             placeholder="Email address"
             autoComplete="email"
             {...register("email", {
@@ -88,15 +94,15 @@ export default function SignUp() {
           )}
         </div>
 
-        <div className={styles.regField}>
-          <label htmlFor="password" className={styles.regLabel}>
-            Password
+        <div className={styles.editField}>
+          <label htmlFor="password" className={styles.editLabel}>
+            New password
           </label>
           <input
             type="password"
             id="password"
-            className={styles.regInput}
-            placeholder="Password"
+            className={styles.editInput}
+            placeholder="New password"
             {...register("password", {
               required: "*password is required",
               minLength: {
@@ -114,52 +120,32 @@ export default function SignUp() {
           )}
         </div>
 
-        <div className={styles.regField}>
-          <label htmlFor="repeat-password" className={styles.regLabel}>
-            Repeat Password
+        <div className={styles.editField}>
+          <label htmlFor="image" className={styles.editLabel}>
+            Avatar image (url)
           </label>
           <input
-            type="password"
-            id="repeat-password"
-            className={styles.regInput}
-            placeholder="Password"
-            {...register("repeatPassword", {
-              required: "*confirm your password",
-              validate: (value) => value === password || "Passwords must match",
+            type="url"
+            id="image"
+            className={styles.editInput}
+            placeholder="Avatar image"
+            {...register("image", {
+              required: "*url is required",
+              pattern: {
+                value: /^(https?:\/\/[^\s$.?#].[^\s]*)$/i,
+                message: "Invalid URL format",
+              },
             })}
           />
-          {errors.repeatPassword && (
-            <p className={styles.errorText}>{errors.repeatPassword.message}</p>
+          {errors.image && (
+            <p className={styles.errorText}>{errors.image.message}</p>
           )}
         </div>
 
-        <div className={styles.regFieldCheckbox}>
-          <input
-            type="checkbox"
-            id="agreement"
-            className={styles.regInputCheckbox}
-            {...register("agreement", {
-              required: "*agree to terms and conditions",
-            })}
-          />
-          <label htmlFor="agreement" className={styles.regLabelCheckbox}>
-            I agree to the processing of my personal information
-            {errors.agreement && (
-              <p className={styles.errorText}>{errors.agreement.message}</p>
-            )}
-          </label>
-        </div>
-
-        <button type="submit" className={styles.regButton}>
-          Create
+        <button type="submit" className={styles.saveButton}>
+          Save
         </button>
       </form>
-      <p className={styles.regFooter}>
-        Already have an account?{" "}
-        <Link className={styles.regSignInLink} to="/sign-in">
-          Sign In.
-        </Link>
-      </p>
     </div>
   );
 }

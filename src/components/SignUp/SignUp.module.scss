@@ -3,7 +3,7 @@
   margin: 0 auto;
 }
 
-.loginContainer {
+.regContainer {
   font-family: Roboto;
   color: #262626;
   width: 384px;
@@ -22,7 +22,7 @@
     0px 0.609px 2.933px 0px rgba(0, 0, 0, 0.02);
 }
 
-.loginTitle {
+.regTitle {
   font-family: Roboto-Medium;
   font-size: 20px;
   font-weight: 500;
@@ -31,23 +31,39 @@
   margin-bottom: 21px;
 }
 
-.loginField {
+.regField {
   display: flex;
   flex-direction: column;
   margin-bottom: 12px;
 
-  &:last-of-type {
+  &:nth-child(4) {
     margin-bottom: 21px;
   }
 }
 
-.loginLabel {
+.regFieldCheckbox {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  border-top: 1px solid #e8e8e8;
+  margin-bottom: 21px;
+  padding-top: 8px;
+}
+
+.regLabel {
   font-size: 14px;
   line-height: 22px;
   margin-bottom: 2px;
 }
 
-.loginInput {
+.regLabelCheckbox {
+  font-size: 14px;
+  line-height: 22px;
+  color: #595959;
+  cursor: pointer;
+}
+
+.regInput {
   font-family: Roboto;
   font-size: 16px;
   line-height: 24px;
@@ -61,6 +77,13 @@
   }
 }
 
+.regInputCheckbox {
+  margin-top: 2.4px;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
 .errorText {
   font-size: 14px;
   line-height: 22px;
@@ -68,7 +91,7 @@
   color: #f5222d;
 }
 
-.loginButton {
+.regButton {
   font-family: Roboto;
   font-size: 16px;
   line-height: 24px;
@@ -95,14 +118,14 @@
   }
 }
 
-.loginFooter {
+.regFooter {
   text-align: center;
   font-size: 12px;
   line-height: 20px;
   color: #8c8c8c;
 }
 
-.loginSignUpLink {
+.regSignInLink {
   color: #1890ff;
 
   &:hover {

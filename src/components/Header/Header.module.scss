@@ -42,8 +42,17 @@
   }
 
   &__edit-profile {
+    display: inline-flex;
+    align-items: center;
     color: #000000d9;
     margin-right: 27px;
+  }
+
+  &__image {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    margin-left: 13px;
   }
 
   &__log-out {

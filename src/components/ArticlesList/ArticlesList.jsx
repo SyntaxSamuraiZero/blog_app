@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Pagination, Spin, ConfigProvider } from "antd";
-import { LoadingOutlined } from "@ant-design/icons";
+import { Pagination, ConfigProvider } from "antd";
 
 import Article from "../Article";
-import fetchArticles from "../../services/fetchArticles";
+import getArticles from "../../services/getArticles";
+import Loading from "../Loading";
+import Error from "../Error";
 
-import "./ArticlesList.scss";
+import styles from "./ArticlesList.module.scss";
 
 const customTheme = {
   token: {
@@ -20,31 +21,37 @@ const customTheme = {
 export default function ArticlesList() {
   const [articles, setArticles] = useState([]);
   const [articlesCount, setArticlesCount] = useState(0);
-  const [loading, setLoading] = useState(true);
-  // const [error, setError] = useState();
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const [loading, setLoading] = useState(null);
+  const [error, setError] = useState(null);
 
   const [limit] = useState(5);
   const [offset, setOffset] = useState(0);
 
   useEffect(() => {
-    fetchArticles(setArticles, setArticlesCount, setLoading, limit, offset);
+    setLoading(true);
+    getArticles(
+      setArticles,
+      setArticlesCount,
+      setLoading,
+      setError,
+      limit,
+      offset
+    );
   }, [limit, offset]);
 
   if (loading) {
-    return (
-      <div className="loading-overlay">
-        <Spin
-          className="loading-container"
-          indicator={<LoadingOutlined spin />}
-          size="large"
-        />
-      </div>
-    );
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error error={error} />;
   }
 
   return (
     <>
-      <ul className="articles-list">
+      <ul className={styles.articlesList}>
         {articles.map((article) => (
           <Article key={article.slug} article={article} />
         ))}
@@ -52,8 +59,10 @@ export default function ArticlesList() {
       <ConfigProvider theme={customTheme}>
         <Pagination
           onChange={(newPage) => {
+            setCurrentPage(newPage);
             setOffset((newPage - 1) * limit);
           }}
+          current={currentPage}
           defaultCurrent={1}
           defaultPageSize={limit}
           total={articlesCount}

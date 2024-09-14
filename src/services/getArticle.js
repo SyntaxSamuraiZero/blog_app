@@ -1,4 +1,4 @@
-export default async function fetchArticle(setArticle, setLoading, slug) {
+export default async function getArticle(setArticle, setLoading, slug) {
   try {
     const response = await fetch(
       `https://blog.kata.academy/api/articles/${slug}`

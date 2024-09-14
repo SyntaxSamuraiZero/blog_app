@@ -1,4 +1,13 @@
-export default async function handleLogin(formData, setError) {
+import { message } from "antd";
+
+export default async function handleLogin(
+  formData,
+  setUser,
+  setIsAuthenticated,
+  navigate
+) {
+  const hide = message.loading("Загрузка...", 0);
+
   try {
     const response = await fetch("https://blog.kata.academy/api/users/login", {
       method: "POST",
@@ -9,13 +18,17 @@ export default async function handleLogin(formData, setError) {
     });
 
     if (!response.ok) {
-      throw new Error("Login failed");
+      throw new Error("Неправильный логин или пароль.");
     }
 
-    const result = await response.json();
-    localStorage.setItem("authToken", result.user.token);
-    setError(null);
+    const data = await response.json();
+    setUser(data.user);
+    localStorage.setItem("authToken", data.user.token);
+    setIsAuthenticated(true);
+    hide();
+    navigate("/");
   } catch (error) {
-    setError(error.message);
+    hide();
+    message.error(error.message);
   }
 }

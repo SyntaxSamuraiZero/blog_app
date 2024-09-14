@@ -5,7 +5,7 @@ import { Spin } from "antd";
 import { HeartOutlined, LoadingOutlined } from "@ant-design/icons";
 import { format } from "date-fns";
 
-import fetchArticle from "../../services/fetchArticle";
+import getArticle from "../../services/getArticle";
 
 import "./ArticlePage.scss";
 
@@ -15,10 +15,8 @@ export default function ArticlePage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetchArticle(setArticle, setLoading, slug);
+    getArticle(setArticle, setLoading, slug);
   }, [slug]);
-
-  console.log(article);
 
   if (loading) {
     return (

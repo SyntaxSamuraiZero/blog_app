@@ -1,9 +1,19 @@
+@font-face {
+  font-family: "Roboto";
+  src: url("../../assets/fonts/Roboto/Roboto-Regular.ttf") format("truetype");
+}
+
+@font-face {
+  font-family: "Roboto-Medium";
+  src: url("../../assets/fonts/Roboto/Roboto-Medium.ttf") format("truetype");
+}
+
 .error {
   width: 384px;
   margin: 0 auto;
 }
 
-.loginContainer {
+.editContainer {
   font-family: Roboto;
   color: #262626;
   width: 384px;
@@ -22,7 +32,7 @@
     0px 0.609px 2.933px 0px rgba(0, 0, 0, 0.02);
 }
 
-.loginTitle {
+.editTitle {
   font-family: Roboto-Medium;
   font-size: 20px;
   font-weight: 500;
@@ -31,7 +41,7 @@
   margin-bottom: 21px;
 }
 
-.loginField {
+.editField {
   display: flex;
   flex-direction: column;
   margin-bottom: 12px;
@@ -41,13 +51,13 @@
   }
 }
 
-.loginLabel {
+.editLabel {
   font-size: 14px;
   line-height: 22px;
   margin-bottom: 2px;
 }
 
-.loginInput {
+.editInput {
   font-family: Roboto;
   font-size: 16px;
   line-height: 24px;
@@ -68,7 +78,7 @@
   color: #f5222d;
 }
 
-.loginButton {
+.saveButton {
   font-family: Roboto;
   font-size: 16px;
   line-height: 24px;
@@ -77,7 +87,6 @@
   padding: 8px 16px;
   border-radius: 4px;
   background: #1890ff;
-  margin-bottom: 8px;
   cursor: pointer;
 
   &:hover {
@@ -92,20 +101,5 @@
   &:focus {
     outline: none;
     box-shadow: 0 0 0 3px rgba(24, 144, 255, 0.5);
-  }
-}
-
-.loginFooter {
-  text-align: center;
-  font-size: 12px;
-  line-height: 20px;
-  color: #8c8c8c;
-}
-
-.loginSignUpLink {
-  color: #1890ff;
-
-  &:hover {
-    color: #40a9ff;
   }
 }

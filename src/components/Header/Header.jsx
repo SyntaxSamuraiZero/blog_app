@@ -1,21 +1,22 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 import styles from "./Header.module.scss";
 
-export default function Header() {
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-
-  useEffect(() => {
-    const token = localStorage.getItem("authToken");
-    if (token) {
-      setIsAuthenticated(true);
-    }
-  }, []);
+export default function Header({
+  isAuthenticated,
+  setIsAuthenticated,
+  user,
+  setUser,
+}) {
+  const navigate = useNavigate();
 
   const handleLogout = () => {
-    localStorage.removeItem("authToken");
     setIsAuthenticated(false);
+    localStorage.removeItem("authToken");
+    setUser(null);
+    navigate("/");
   };
 
   return (
@@ -38,7 +39,12 @@ export default function Header() {
             Create article
           </Link>
           <Link className={styles["header__edit-profile"]} to="/profile">
-            John Doe
+            {user.username}
+            <img
+              className={styles["header__image"]}
+              src={user.image}
+              alt={user.username}
+            />
           </Link>
           <button className={styles["header__log-out"]} onClick={handleLogout}>
             Log Out
