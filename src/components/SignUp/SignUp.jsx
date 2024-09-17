@@ -1,10 +1,10 @@
-import React from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { useForm } from "react-hook-form";
+import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { useForm } from 'react-hook-form'
 
-import handleSubmits from "../../services/handleSubmits";
+import handleSubmits from '../../services/handleSubmits'
 
-import styles from "./SignUp.module.scss";
+import styles from './SignUp.module.scss'
 
 export default function SignUp() {
   const {
@@ -12,10 +12,10 @@ export default function SignUp() {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm();
+  } = useForm()
 
-  const navigate = useNavigate();
-  const password = watch("password");
+  const navigate = useNavigate()
+  const password = watch('password')
 
   const onSubmit = async (data) => {
     const formData = {
@@ -24,142 +24,132 @@ export default function SignUp() {
         email: data.email,
         password: data.password,
       },
-    };
+    }
 
-    await handleSubmits(formData, navigate);
-  };
+    await handleSubmits(formData, navigate)
+  }
 
   return (
     <div className={styles.regContainer}>
       <h2 className={styles.regTitle}>Create new account</h2>
       <form onSubmit={handleSubmit(onSubmit)} noValidate>
         <div className={styles.regField}>
-          <label htmlFor="username" className={styles.regLabel}>
+          <label htmlFor='username' className={styles.regLabel}>
             Username
           </label>
           <input
-            type="text"
-            id="username"
+            type='text'
+            id='username'
             className={styles.regInput}
-            placeholder="Username"
-            autoComplete="username"
+            placeholder='Username'
+            autoComplete='username'
             autoFocus
-            {...register("username", {
-              required: "*username is required",
+            {...register('username', {
+              required: '*username is required',
               pattern: {
                 value: /^[a-zA-Z0-9]+$/,
-                message: "Username must contain only Latin letters",
+                message: 'Username must contain only Latin letters',
               },
               minLength: {
                 value: 3,
-                message: "Username must be at least 3 characters long",
+                message: 'Username must be at least 3 characters long',
               },
               maxLength: {
                 value: 20,
-                message: "Username cannot exceed 20 characters",
+                message: 'Username cannot exceed 20 characters',
               },
             })}
           />
-          {errors.username && (
-            <p className={styles.errorText}>{errors.username.message}</p>
-          )}
+          {errors.username && <p className={styles.errorText}>{errors.username.message}</p>}
         </div>
 
         <div className={styles.regField}>
-          <label htmlFor="email" className={styles.regLabel}>
+          <label htmlFor='email' className={styles.regLabel}>
             Email address
           </label>
           <input
-            type="email"
-            id="email"
+            type='email'
+            id='email'
             className={styles.regInput}
-            placeholder="Email address"
-            autoComplete="email"
-            {...register("email", {
-              required: "*email is required",
+            placeholder='Email address'
+            autoComplete='email'
+            {...register('email', {
+              required: '*email is required',
               pattern: {
                 value: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/,
-                message: "Enter a valid email address",
+                message: 'Enter a valid email address',
               },
             })}
           />
-          {errors.email && (
-            <p className={styles.errorText}>{errors.email.message}</p>
-          )}
+          {errors.email && <p className={styles.errorText}>{errors.email.message}</p>}
         </div>
 
         <div className={styles.regField}>
-          <label htmlFor="password" className={styles.regLabel}>
+          <label htmlFor='password' className={styles.regLabel}>
             Password
           </label>
           <input
-            type="password"
-            id="password"
+            type='password'
+            id='password'
             className={styles.regInput}
-            placeholder="Password"
-            {...register("password", {
-              required: "*password is required",
+            placeholder='Password'
+            {...register('password', {
+              required: '*password is required',
               minLength: {
                 value: 6,
-                message: "Your password needs to be at least 6 characters.",
+                message: 'Your password needs to be at least 6 characters.',
               },
               maxLength: {
                 value: 40,
-                message: "Password cannot exceed 40 characters",
+                message: 'Password cannot exceed 40 characters',
               },
             })}
           />
-          {errors.password && (
-            <p className={styles.errorText}>{errors.password.message}</p>
-          )}
+          {errors.password && <p className={styles.errorText}>{errors.password.message}</p>}
         </div>
 
         <div className={styles.regField}>
-          <label htmlFor="repeat-password" className={styles.regLabel}>
+          <label htmlFor='repeat-password' className={styles.regLabel}>
             Repeat Password
           </label>
           <input
-            type="password"
-            id="repeat-password"
+            type='password'
+            id='repeat-password'
             className={styles.regInput}
-            placeholder="Password"
-            {...register("repeatPassword", {
-              required: "*confirm your password",
-              validate: (value) => value === password || "Passwords must match",
+            placeholder='Password'
+            {...register('repeatPassword', {
+              required: '*confirm your password',
+              validate: (value) => value === password || 'Passwords must match',
             })}
           />
-          {errors.repeatPassword && (
-            <p className={styles.errorText}>{errors.repeatPassword.message}</p>
-          )}
+          {errors.repeatPassword && <p className={styles.errorText}>{errors.repeatPassword.message}</p>}
         </div>
 
         <div className={styles.regFieldCheckbox}>
           <input
-            type="checkbox"
-            id="agreement"
+            type='checkbox'
+            id='agreement'
             className={styles.regInputCheckbox}
-            {...register("agreement", {
-              required: "*agree to terms and conditions",
+            {...register('agreement', {
+              required: '*agree to terms and conditions',
             })}
           />
-          <label htmlFor="agreement" className={styles.regLabelCheckbox}>
+          <label htmlFor='agreement' className={styles.regLabelCheckbox}>
             I agree to the processing of my personal information
-            {errors.agreement && (
-              <p className={styles.errorText}>{errors.agreement.message}</p>
-            )}
+            {errors.agreement && <p className={styles.errorText}>{errors.agreement.message}</p>}
           </label>
         </div>
 
-        <button type="submit" className={styles.regButton}>
+        <button type='submit' className={styles.regButton}>
           Create
         </button>
       </form>
       <p className={styles.regFooter}>
-        Already have an account?{" "}
-        <Link className={styles.regSignInLink} to="/sign-in">
+        Already have an account?{' '}
+        <Link className={styles.regSignInLink} to='/sign-in'>
           Sign In.
         </Link>
       </p>
     </div>
-  );
+  )
 }

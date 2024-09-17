@@ -1,23 +1,23 @@
 export default async function getUser(setUser, setLoading, setError) {
   try {
-    const token = localStorage.getItem("authToken");
+    const token = localStorage.getItem('authToken')
     const response = await fetch(`https://blog.kata.academy/api/user`, {
-      method: "GET",
+      method: 'GET',
       headers: {
         Authorization: `Token ${token}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
-    });
+    })
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error(`HTTP error! Status: ${response.status}`)
     }
 
-    const data = await response.json();
-    setUser(data.user);
+    const data = await response.json()
+    setUser(data.user)
   } catch (error) {
-    setError(error.message);
+    setError(error.message)
   } finally {
-    setLoading(false);
+    setLoading(false)
   }
 }
