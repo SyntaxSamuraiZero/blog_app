@@ -5,7 +5,7 @@ import { message, Popconfirm } from 'antd'
 import { HeartTwoTone } from '@ant-design/icons'
 import { format } from 'date-fns'
 
-import getArticle from '../../services/getArticle'
+import getArticlePage from '../../services/getArticlePage'
 import deleteArticle from '../../services/deleteArticle'
 import favoriteArticle from '../../services/favoriteArticle'
 import unfavoriteArticle from '../../services/unfavoriteArticle'
@@ -14,19 +14,21 @@ import Error from '../Error'
 
 import './ArticlePage.scss'
 
-export default function ArticlePage({ user, article, isAuthenticated, setArticle }) {
+export default function ArticlePage({ user, isAuthenticated }) {
   const { slug } = useParams()
   const navigate = useNavigate()
   const [messageApi, contextHolder] = message.useMessage()
-  const [isLiked, setIsLiked] = useState(article?.favorited)
-  const [favoritesCount, setFavoritesCount] = useState(article?.favoritesCount)
+
+  const [article, setArticle] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
+  const [isLiked, setIsLiked] = useState(article?.favorited)
+  const [favoritesCount, setFavoritesCount] = useState(article?.favoritesCount)
   const isAuthor = user?.username === article?.author.username
 
   useEffect(() => {
-    getArticle(setArticle, setLoading, setError, slug, setIsLiked, setFavoritesCount)
-  }, [setArticle, slug])
+    getArticlePage(setArticle, setLoading, setError, slug, setIsLiked, setFavoritesCount)
+  }, [])
 
   const handleLike = () => {
     if (!isAuthenticated) {

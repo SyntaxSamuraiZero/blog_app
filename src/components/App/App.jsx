@@ -12,14 +12,13 @@ import EditProfile from '../EditProfile'
 import getUser from '../../services/getUser'
 import Loading from '../Loading'
 import Error from '../Error'
-// import PrivateRoute from "../PrivateRoute";
+import PrivateRoute from '../PrivateRoute'
 
 import './App.scss'
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false)
   const [user, setUser] = useState(null)
-  const [article, setArticle] = useState(null)
 
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState(null)
@@ -49,17 +48,33 @@ export default function App() {
         <Routes>
           <Route path='/' element={<ArticlesList isAuthenticated={isAuthenticated} />} />
           <Route path='/articles' element={<ArticlesList isAuthenticated={isAuthenticated} />} />
-          <Route
-            path='/articles/:slug'
-            element={
-              <ArticlePage user={user} article={article} isAuthenticated={isAuthenticated} setArticle={setArticle} />
-            }
-          />
+          <Route path='/articles/:slug' element={<ArticlePage user={user} isAuthenticated={isAuthenticated} />} />
           <Route path='/sign-in' element={<SignIn setUser={setUser} setIsAuthenticated={setIsAuthenticated} />} />
           <Route path='/sign-up' element={<SignUp />} />
-          <Route path='/new-article' element={<CreateArticle />} />
-          <Route path='/profile' element={<EditProfile user={user} setUser={setUser} />} />
-          <Route path='/articles/:slug/edit' element={<EditArticle article={article} />} />
+          <Route
+            path='/new-article'
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <CreateArticle />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/profile'
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <EditProfile user={user} setUser={setUser} />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path='/articles/:slug/edit'
+            element={
+              <PrivateRoute isAuthenticated={isAuthenticated}>
+                <EditArticle />
+              </PrivateRoute>
+            }
+          />
         </Routes>
       </main>
     </div>

@@ -2,11 +2,14 @@ import React, { useState, useEffect, useRef } from 'react'
 import { useForm } from 'react-hook-form'
 import { useParams, useNavigate } from 'react-router-dom'
 
+import getArticleEdit from '../../services/getArticleEdit'
 import updateArticle from '../../services/updateArticle'
+import Loading from '../Loading'
+import Error from '../Error'
 
 import styles from './EditArticle.module.scss'
 
-export default function EditArticle({ article }) {
+export default function EditArticle() {
   const {
     register,
     handleSubmit,
@@ -16,6 +19,17 @@ export default function EditArticle({ article }) {
 
   const { slug } = useParams()
   const navigate = useNavigate()
+  const inputRef = useRef(null)
+
+  const [tags, setTags] = useState([])
+  const [tagInput, setTagInput] = useState('')
+  const [article, setArticle] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
+
+  useEffect(() => {
+    getArticleEdit(setArticle, setLoading, setError, slug)
+  }, [])
 
   useEffect(() => {
     if (article) {
@@ -41,10 +55,6 @@ export default function EditArticle({ article }) {
     await updateArticle(formData, slug, navigate)
   }
 
-  const inputRef = useRef(null)
-  const [tags, setTags] = useState([])
-  const [tagInput, setTagInput] = useState('')
-
   const onClickDeleteTag = (indexToRemove) => {
     setTags(tags.filter((_, index) => index !== indexToRemove))
   }
@@ -56,6 +66,14 @@ export default function EditArticle({ article }) {
       setTagInput('')
       inputRef.current.focus()
     }
+  }
+
+  if (loading) {
+    return <Loading />
+  }
+
+  if (error) {
+    return <Error error={error} />
   }
 
   return (

@@ -1,4 +1,4 @@
-export default async function getArticle(setArticle, setLoading, setError, slug, setIsLiked, setFavoritesCount) {
+export default async function getArticlePage(setArticle, setLoading, setError, slug, setIsLiked, setFavoritesCount) {
   const token = localStorage.getItem('authToken')
 
   try {
