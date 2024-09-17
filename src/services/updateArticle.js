@@ -1,6 +1,6 @@
 import { message } from "antd";
 
-export default async function updateArticle(formData, slug) {
+export default async function updateArticle(formData, slug, navigate) {
   const token = localStorage.getItem("authToken");
 
   try {
@@ -9,7 +9,7 @@ export default async function updateArticle(formData, slug) {
       {
         method: "PUT",
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Token ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify(formData),
@@ -17,10 +17,11 @@ export default async function updateArticle(formData, slug) {
     );
 
     if (!response.ok) {
-      throw new Error("Ошибка.");
+      throw new Error("Ошибка обновления статьи.");
     }
 
-    message.success("Статья обновлена.", 2);
+    message.success("Статья обновлена.");
+    navigate(`/articles/${slug}`);
   } catch (error) {
     message.error(error.message);
   }

@@ -1,42 +1,82 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import ReactMarkdown from "react-markdown";
-import { Spin } from "antd";
-import { HeartOutlined, LoadingOutlined } from "@ant-design/icons";
+import { message, Popconfirm } from "antd";
+import { HeartTwoTone } from "@ant-design/icons";
 import { format } from "date-fns";
 
 import getArticle from "../../services/getArticle";
+import deleteArticle from "../../services/deleteArticle";
+import favoriteArticle from "../../services/favoriteArticle";
+import unfavoriteArticle from "../../services/unfavoriteArticle";
+import Loading from "../Loading";
+import Error from "../Error";
 
 import "./ArticlePage.scss";
 
-export default function ArticlePage() {
+export default function ArticlePage({
+  user,
+  article,
+  isAuthenticated,
+  setArticle,
+}) {
   const { slug } = useParams();
-  const [article, setArticle] = useState({});
+  const navigate = useNavigate();
+  const [messageApi, contextHolder] = message.useMessage();
+  const [isLiked, setIsLiked] = useState(article?.favorited);
+  const [favoritesCount, setFavoritesCount] = useState(article?.favoritesCount);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const isAuthor = user?.username === article?.author.username;
 
   useEffect(() => {
-    getArticle(setArticle, setLoading, slug);
-  }, [slug]);
+    getArticle(
+      setArticle,
+      setLoading,
+      setError,
+      slug,
+      setIsLiked,
+      setFavoritesCount
+    );
+  }, [setArticle, slug]);
+
+  const handleLike = () => {
+    if (!isAuthenticated) {
+      messageApi.open({
+        type: "error",
+        content: "Вы должны быть авторизованы, чтобы ставить лайки.",
+      });
+      return;
+    }
+
+    if (isLiked) {
+      unfavoriteArticle(setIsLiked, setFavoritesCount, slug);
+    } else {
+      favoriteArticle(setIsLiked, setFavoritesCount, slug);
+    }
+  };
 
   if (loading) {
-    return (
-      <div className="loading-overlay">
-        <Spin
-          className="loading-container"
-          indicator={<LoadingOutlined spin />}
-          size="large"
-        />
-      </div>
-    );
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error error={error} />;
   }
 
   return (
     <div className="article">
       <div className="article__header">
         <h1 className="article__title">{article.title}</h1>
-        <div className="article__likes">
-          <HeartOutlined className="article__likes-icon" />
-          <span className="article__likes-count">{article.favoritesCount}</span>
+        <div className="article__item-likes">
+          {contextHolder}
+          <button onClick={handleLike} className="article__item-likes-button">
+            <HeartTwoTone
+              style={{ fontSize: "16px" }}
+              twoToneColor={isLiked ? "#FF0707" : ""}
+            />
+          </button>
+          <span className="article__item-likes-count">{favoritesCount}</span>
         </div>
       </div>
 
@@ -50,7 +90,28 @@ export default function ArticlePage() {
           ))}
       </ul>
 
-      <p className="article__description">{article.description}</p>
+      <div className="article__container">
+        <p className="article__description">{article.description}</p>
+        {isAuthor && (
+          <div>
+            <Popconfirm
+              placement="right"
+              description="Are you sure to delete this article?"
+              okText="Yes"
+              cancelText="No"
+              onConfirm={() => deleteArticle(slug, navigate)}
+            >
+              <button className="article__deleteButton">Delete</button>
+            </Popconfirm>
+            <button
+              className="article__editButton"
+              onClick={() => navigate(`/articles/${slug}/edit`)}
+            >
+              Edit
+            </button>
+          </div>
+        )}
+      </div>
 
       <ReactMarkdown>{article.body}</ReactMarkdown>
 

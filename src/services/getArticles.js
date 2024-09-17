@@ -6,9 +6,17 @@ export default async function getArticles(
   limit,
   offset
 ) {
+  const token = localStorage.getItem("authToken");
+
   try {
     const response = await fetch(
-      `https://blog.kata.academy/api/articles?limit=${limit}&offset=${offset}`
+      `https://blog.kata.academy/api/articles?limit=${limit}&offset=${offset}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: `Token ${token}`,
+        },
+      }
     );
 
     if (!response.ok) {

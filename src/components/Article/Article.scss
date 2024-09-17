@@ -30,7 +30,10 @@
     display: flex;
   }
 
-  &__item-likes-icon {
+  &__item-likes-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
     margin-right: 5px;
   }
 

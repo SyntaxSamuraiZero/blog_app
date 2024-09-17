@@ -18,7 +18,7 @@ const customTheme = {
   },
 };
 
-export default function ArticlesList() {
+export default function ArticlesList({ isAuthenticated }) {
   const [articles, setArticles] = useState([]);
   const [articlesCount, setArticlesCount] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -53,7 +53,11 @@ export default function ArticlesList() {
     <>
       <ul className={styles.articlesList}>
         {articles.map((article) => (
-          <Article key={article.slug} article={article} />
+          <Article
+            key={article.slug}
+            article={article}
+            isAuthenticated={isAuthenticated}
+          />
         ))}
       </ul>
       <ConfigProvider theme={customTheme}>

@@ -1,5 +1,6 @@
 import React, { useState, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import createArticle from "../../services/createArticle";
 
@@ -12,6 +13,8 @@ export default function CreateArticle() {
     formState: { errors },
   } = useForm();
 
+  const navigate = useNavigate();
+
   const onSubmit = async (data) => {
     const formData = {
       article: {
@@ -22,7 +25,7 @@ export default function CreateArticle() {
       },
     };
 
-    await createArticle(formData);
+    await createArticle(formData, navigate);
   };
 
   const inputRef = useRef(null);

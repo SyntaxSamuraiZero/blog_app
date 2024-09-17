@@ -7,7 +7,7 @@ export default async function updateUser(formData, setUser) {
     const response = await fetch("https://blog.kata.academy/api/user", {
       method: "PUT",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Token ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),

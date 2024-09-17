@@ -4,7 +4,7 @@ export default async function getUser(setUser, setLoading, setError) {
     const response = await fetch(`https://blog.kata.academy/api/user`, {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Token ${token}`,
         "Content-Type": "application/json",
       },
     });

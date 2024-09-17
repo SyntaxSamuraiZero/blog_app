@@ -1,6 +1,6 @@
 import { message } from "antd";
 
-export default async function handleSubmits(formData) {
+export default async function handleSubmits(formData, navigate) {
   const hide = message.loading("Загрузка данных...", 0);
   const token = localStorage.getItem("authToken");
 
@@ -8,7 +8,7 @@ export default async function handleSubmits(formData) {
     const response = await fetch("https://blog.kata.academy/api/articles", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Token ${token}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify(formData),
@@ -19,7 +19,8 @@ export default async function handleSubmits(formData) {
     }
 
     hide();
-    message.success("Пост добавлен.");
+    message.success("Пост добавлен.", 2);
+    navigate("/");
   } catch (error) {
     hide();
     message.error(error.message);

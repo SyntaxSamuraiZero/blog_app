@@ -12,23 +12,25 @@ import EditProfile from "../EditProfile";
 import getUser from "../../services/getUser";
 import Loading from "../Loading";
 import Error from "../Error";
-import PrivateRoute from "../PrivateRoute";
+// import PrivateRoute from "../PrivateRoute";
 
 import "./App.scss";
 
 export default function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [article, setArticle] = useState(null);
 
-  const [loading, setLoading] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("authToken");
     if (token) {
       setIsAuthenticated(true);
-      setLoading(true);
       getUser(setUser, setLoading, setError);
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -50,9 +52,28 @@ export default function App() {
       />
       <main className="main">
         <Routes>
-          <Route path="/" element={<ArticlesList />} />
-          <Route path="/articles" element={<ArticlesList />} />
-          <Route path="/articles/:slug" element={<ArticlePage />} />
+          <Route
+            path="/"
+            element={<ArticlesList isAuthenticated={isAuthenticated} />}
+          />
+
+          <Route
+            path="/articles"
+            element={<ArticlesList isAuthenticated={isAuthenticated} />}
+          />
+
+          <Route
+            path="/articles/:slug"
+            element={
+              <ArticlePage
+                user={user}
+                article={article}
+                isAuthenticated={isAuthenticated}
+                setArticle={setArticle}
+              />
+            }
+          />
+
           <Route
             path="/sign-in"
             element={
@@ -62,20 +83,20 @@ export default function App() {
               />
             }
           />
+
           <Route path="/sign-up" element={<SignUp />} />
 
-          <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-            <Route path="/new-article" element={<CreateArticle />} />
-          </Route>
+          <Route path="/new-article" element={<CreateArticle />} />
 
-          <Route element={<PrivateRoute isAuthenticated={isAuthenticated} />}>
-            <Route
-              path="/profile"
-              element={<EditProfile user={user} setUser={setUser} />}
-            />
-          </Route>
+          <Route
+            path="/profile"
+            element={<EditProfile user={user} setUser={setUser} />}
+          />
 
-          <Route path="/articles/:slug/edit" element={<EditArticle />} />
+          <Route
+            path="/articles/:slug/edit"
+            element={<EditArticle article={article} />}
+          />
         </Routes>
       </main>
     </div>

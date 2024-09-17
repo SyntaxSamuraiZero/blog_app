@@ -1,18 +1,17 @@
-export default async function getArticle(
-  setArticle,
-  setLoading,
-  setError,
-  slug,
+import { message } from "antd";
+
+export default async function handleSubmits(
   setIsLiked,
-  setFavoritesCount
+  setFavoritesCount,
+  slug
 ) {
   const token = localStorage.getItem("authToken");
 
   try {
     const response = await fetch(
-      `https://blog.kata.academy/api/articles/${slug}`,
+      `https://blog.kata.academy/api/articles/${slug}/favorite`,
       {
-        method: "GET",
+        method: "DELETE",
         headers: {
           Authorization: `Token ${token}`,
         },
@@ -20,16 +19,13 @@ export default async function getArticle(
     );
 
     if (!response.ok) {
-      throw new Error(`HTTP error! Status: ${response.status}`);
+      throw new Error("Ошибка.");
     }
 
     const data = await response.json();
-    setArticle(data.article);
     setIsLiked(data.article.favorited);
     setFavoritesCount(data.article.favoritesCount);
   } catch (error) {
-    setError(error);
-  } finally {
-    setLoading(false);
+    message.error(error.message);
   }
 }

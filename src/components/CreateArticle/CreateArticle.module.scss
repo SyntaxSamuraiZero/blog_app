@@ -118,13 +118,8 @@
   background: white;
   cursor: pointer;
 
-  &:hover {
-    border-color: #ff4d4f;
-  }
-
   &:active {
-    background-color: #ffccc7;
-    border-color: #f5222d;
+    transform: scale(0.98);
   }
 
   &:focus {
@@ -144,13 +139,8 @@
   background: white;
   cursor: pointer;
 
-  &:hover {
-    border-color: #40a9ff;
-  }
-
   &:active {
-    background-color: #bae7ff;
-    border-color: #1890ff;
+    transform: scale(0.98);
   }
 
   &:focus {

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
+import { useParams, useNavigate } from "react-router-dom";
 
 import updateArticle from "../../services/updateArticle";
 
 import styles from "./EditArticle.module.scss";
 
-export default function EditArticle() {
+export default function EditArticle({ article }) {
   const {
     register,
     handleSubmit,
@@ -13,15 +14,19 @@ export default function EditArticle() {
     formState: { errors },
   } = useForm();
 
-  //   useEffect(() => {
-  //     if (user) {
-  //       reset({
-  //         title: user.username,
-  //         description: user.email,
-  //         body: data.text,
-  //       });
-  //     }
-  //   }, [user, reset]);
+  const { slug } = useParams();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (article) {
+      reset({
+        title: article.title,
+        shortDescription: article.description,
+        text: article.body,
+      });
+      setTags(article.tagList);
+    }
+  }, [article, reset]);
 
   const onSubmit = async (data) => {
     const formData = {
@@ -33,7 +38,7 @@ export default function EditArticle() {
       },
     };
 
-    // await updateArticle(formData);
+    await updateArticle(formData, slug, navigate);
   };
 
   const inputRef = useRef(null);

@@ -1,11 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
-import { HeartOutlined } from "@ant-design/icons";
+import { message } from "antd";
+import { HeartTwoTone } from "@ant-design/icons";
 import { format } from "date-fns";
+
+import favoriteArticle from "../../services/favoriteArticle";
+import unfavoriteArticle from "../../services/unfavoriteArticle";
 
 import "./Article.scss";
 
-export default function Article({ article }) {
+export default function Article({ article, isAuthenticated }) {
+  const [messageApi, contextHolder] = message.useMessage();
+  const [isLiked, setIsLiked] = useState(article.favorited);
+  const [favoritesCount, setFavoritesCount] = useState(article.favoritesCount);
+
+  const handleLike = () => {
+    if (!isAuthenticated) {
+      messageApi.open({
+        type: "error",
+        content: "Вы должны быть авторизованы, чтобы ставить лайки.",
+      });
+      return;
+    }
+
+    if (isLiked) {
+      unfavoriteArticle(setIsLiked, setFavoritesCount, article.slug);
+    } else {
+      favoriteArticle(setIsLiked, setFavoritesCount, article.slug);
+    }
+  };
+
   return (
     <li className="articles-list__item">
       <div className="articles-list__item-header">
@@ -16,9 +40,18 @@ export default function Article({ article }) {
           {article.title}
         </Link>
         <div className="articles-list__item-likes">
-          <HeartOutlined className="articles-list__item-likes-icon" />
+          {contextHolder}
+          <button
+            onClick={handleLike}
+            className="articles-list__item-likes-button"
+          >
+            <HeartTwoTone
+              style={{ fontSize: "16px" }}
+              twoToneColor={isLiked ? "#FF0707" : ""}
+            />
+          </button>
           <span className="articles-list__item-likes-count">
-            {article.favoritesCount}
+            {favoritesCount}
           </span>
         </div>
       </div>
